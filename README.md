@@ -1,4 +1,4 @@
-# 📅 Event Scheduler MVC
+# 📅  Event Scheduler & Calendar | ASP.NET MVC Project
 
 A dynamic event scheduling and management system built with ASP.NET MVC and Entity Framework (Code First).
 
