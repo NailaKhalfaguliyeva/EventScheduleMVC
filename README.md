@@ -12,7 +12,7 @@ Event Scheduler MVC is designed to simulate a real-world event planning system.
 
 Events are categorized by departments, each assigned a unique color for better visualization. Users can easily organize and manage events directly on the calendar with a smooth and responsive user experience.
 
----
+---This project was developed as part of the M&Y Yazılım Eğitim Akademisi Danışmanlık program under the mentorship of Murat Yucedag.
 
 ## ✨ Features
 
