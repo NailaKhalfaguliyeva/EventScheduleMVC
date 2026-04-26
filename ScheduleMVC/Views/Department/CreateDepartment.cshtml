@@ -1,0 +1,61 @@
+﻿@model ScheduleMVC.Entities.Department
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Create Department</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+
+</head>
+<body class="hold-transition">
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-7">
+
+                <div class="card card-success shadow">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-plus-circle"></i> Create Department
+                        </h3>
+                    </div>
+
+                    <div class="card-body">
+                        <form method="post">
+
+                            <div class="form-group">
+                                <label>Department Name</label>
+                                @Html.TextBoxFor(x => x.DepartmentName, new { @class = "form-control", placeholder = "For example: IT" })
+                            </div>
+
+                            <div class="form-group">
+                                <label>Color</label>
+                                @Html.TextBoxFor(x => x.Color, new { @class = "form-control", placeholder = "For example: blue or #007bff" })
+                            <small class="text-muted">
+                                Example: red, blue, green, yellow, #28a745
+                            </small>
+                            </div>
+
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-save"></i> Save
+                            </button>
+
+                            <a href="/Department/DepartmentList" class="btn btn-secondary">
+                                Go back
+                            </a>
+
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

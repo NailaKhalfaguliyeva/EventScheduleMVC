@@ -1,0 +1,387 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Event Scheduler</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="@Url.Content("~/AdminLTE-3.0.4/plugins/fontawesome-free/css/all.min.css")">
+    <link rel="stylesheet" href="@Url.Content("~/AdminLTE-3.0.4/dist/css/adminlte.min.css")">
+
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet" />
+
+    <style>
+        body {
+            background-color: #f4f6f9;
+        }
+
+        .external-event {
+            color: white;
+            padding: 10px;
+            margin-bottom: 8px;
+            border-radius: 4px;
+            cursor: move;
+            font-weight: 600;
+        }
+
+        #calendar {
+            background: white;
+            padding: 10px;
+            min-height: 650px;
+        }
+
+        .fc .fc-toolbar-title {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .fc-event {
+            cursor: pointer;
+        }
+
+        .fc-event-resizer {
+            display: block !important;
+        }
+    </style>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed">
+
+    <div class="wrapper">
+
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="pushmenu" href="#">
+                        <i class="fas fa-bars"></i>
+                    </a>
+                </li>
+
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="/Schedule/Index" class="nav-link">Calendar</a>
+                </li>
+
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="/Department/DepartmentList" class="nav-link">Departments</a>
+                </li>
+
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="/Event/EventList" class="nav-link">Events</a>
+                </li>
+            </ul>
+        </nav>
+
+        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+
+            <a href="/Schedule/Index" class="brand-link">
+                <img src="@Url.Content("~/AdminLTE-3.0.4/dist/img/AdminLTELogo.png")"
+                     class="brand-image img-circle elevation-3"
+                     style="opacity:.8">
+                <span class="brand-text font-weight-light">AdminLTE 3</span>
+            </a>
+
+            <div class="sidebar">
+
+                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                    <div class="image">
+                        <img src="@Url.Content("~/AdminLTE-3.0.4/dist/img/user2-160x160.jpg")"
+                             class="img-circle elevation-2">
+                    </div>
+                    <div class="info">
+                        <a href="#" class="d-block">Admin</a>
+                    </div>
+                </div>
+
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column">
+
+                        <li class="nav-item">
+                            <a href="/Schedule/Index" class="nav-link active">
+                                <i class="nav-icon far fa-calendar-alt"></i>
+                                <p>Calendar</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="/Department/DepartmentList" class="nav-link">
+                                <i class="nav-icon fas fa-layer-group"></i>
+                                <p>Departments</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="/Event/EventList" class="nav-link">
+                                <i class="nav-icon fas fa-calendar-check"></i>
+                                <p>Events</p>
+                            </a>
+                        </li>
+
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+
+        <div class="content-wrapper">
+
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+
+                        <div class="col-sm-6">
+                            <h1 class="m-0 text-dark">Event Calendar</h1>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item">
+                                    <a href="/Schedule/Index">Home</a>
+                                </li>
+                                <li class="breadcrumb-item active">Calendar</li>
+                            </ol>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+
+                        <div class="col-md-3">
+
+                            <div class="card card-primary">
+                                <div class="card-header">
+                                    <h3 class="card-title">Draggable Events</h3>
+                                </div>
+
+                                <div class="card-body">
+                                    <div id="external-events">
+
+                                        @foreach (var item in ViewBag.Events)
+                                        {
+                                            <div class="external-event"
+                                                 data-id="@item.EventId"
+                                                 style="background-color:@item.Department.Color">
+                                                @item.Title
+                                            </div>
+                                        }
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card card-success">
+                                <div class="card-header">
+                                    <h3 class="card-title">Event Management</h3>
+                                </div>
+
+                                <div class="card-body">
+                                    <a href="/Event/CreateEvent" class="btn btn-success btn-block">
+                                        Add New Event
+                                    </a>
+
+                                    <a href="/Department/CreateDepartment" class="btn btn-primary btn-block">
+                                        Add New Department
+                                    </a>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-9">
+
+                            <div class="card card-primary">
+                                <div class="card-header">
+                                    <h3 class="card-title">Calendar</h3>
+                                </div>
+
+                                <div class="card-body">
+                                    <div id="calendar"></div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <footer class="main-footer">
+            <strong>Event Scheduler MVC</strong>
+        </footer>
+
+    </div>
+
+    <script src="@Url.Content("~/AdminLTE-3.0.4/plugins/jquery/jquery.min.js")"></script>
+    <script src="@Url.Content("~/AdminLTE-3.0.4/plugins/bootstrap/js/bootstrap.bundle.min.js")"></script>
+    <script src="@Url.Content("~/AdminLTE-3.0.4/dist/js/adminlte.js")"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            var containerEl = document.getElementById('external-events');
+
+            new FullCalendar.Draggable(containerEl, {
+                itemSelector: '.external-event',
+                eventData: function (eventEl) {
+                    return {
+                        title: eventEl.innerText.trim(),
+                        color: eventEl.style.backgroundColor,
+                        eventId: eventEl.getAttribute('data-id'),
+                        create: false
+                    };
+                }
+            });
+
+            var calendarEl = document.getElementById('calendar');
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+
+                editable: true,
+                droppable: true,
+                eventStartEditable: true,
+                eventDurationEditable: true,
+                eventResizableFromStart: true,
+
+                height: 650,
+
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+
+                events: '/Schedule/GetCalendarEvents',
+
+                drop: function (info) {
+                    var eventId = info.draggedEl.getAttribute('data-id');
+
+                    var startDate = info.dateStr;
+
+                    var end = new Date(info.date);
+                    end.setDate(end.getDate() + 1);
+                    var endDate = end.toISOString().split('T')[0];
+
+                    $.ajax({
+                        url: '/Schedule/SaveCalendarEvent',
+                        type: 'POST',
+                        data: {
+                            eventId: eventId,
+                            startDate: startDate,
+                            endDate: endDate
+                        },
+                        success: function () {
+                            calendar.refetchEvents();
+                        }
+                    });
+                },
+
+                eventDrop: function (info) {
+                    var startDate = info.event.start.toISOString().split('T')[0];
+
+                    var endDate;
+
+                    if (info.event.end != null) {
+                        endDate = info.event.end.toISOString().split('T')[0];
+                    } else {
+                        var end = new Date(info.event.start);
+                        end.setDate(end.getDate() + 1);
+                        endDate = end.toISOString().split('T')[0];
+                    }
+
+                    $.ajax({
+                        url: '/Schedule/UpdateCalendarEvent',
+                        type: 'POST',
+                        data: {
+                            scheduleId: info.event.id,
+                            startDate: startDate,
+                            endDate: endDate
+                        },
+                        success: function () {
+                            calendar.refetchEvents();
+                        }
+                    });
+                },
+
+                eventResize: function (info) {
+                    var startDate = info.event.start.toISOString().split('T')[0];
+                    var endDate = info.event.end.toISOString().split('T')[0];
+
+                    $.ajax({
+                        url: '/Schedule/UpdateCalendarEvent',
+                        type: 'POST',
+                        data: {
+                            scheduleId: info.event.id,
+                            startDate: startDate,
+                            endDate: endDate
+                        },
+                        success: function () {
+                            calendar.refetchEvents();
+                        }
+                    });
+                },
+
+                eventClick: function (info) {
+                    var operation = prompt("Select operation: update / delete");
+
+                    if (operation === "delete") {
+                        $.ajax({
+                            url: '/Schedule/DeleteCalendarEvent',
+                            type: 'POST',
+                            data: {
+                                scheduleId: info.event.id
+                            },
+                            success: function () {
+                                info.event.remove();
+                            }
+                        });
+                    }
+
+                    if (operation === "update") {
+                        var currentStart = info.event.start.toISOString().split('T')[0];
+
+                        var currentEnd;
+
+                        if (info.event.end != null) {
+                            currentEnd = info.event.end.toISOString().split('T')[0];
+                        } else {
+                            currentEnd = currentStart;
+                        }
+
+                        var newStartDate = prompt("Write a new start date: yyyy-MM-dd", currentStart);
+                        var newEndDate = prompt("Write a new end date: yyyy-MM-dd", currentEnd);
+
+                        if (newStartDate != null && newEndDate != null) {
+                            $.ajax({
+                                url: '/Schedule/UpdateCalendarEvent',
+                                type: 'POST',
+                                data: {
+                                    scheduleId: info.event.id,
+                                    startDate: newStartDate,
+                                    endDate: newEndDate
+                                },
+                                success: function () {
+                                    calendar.refetchEvents();
+                                }
+                            });
+                        }
+                    }
+                }
+            });
+
+            calendar.render();
+        });
+    </script>
+
+</body>
+</html>

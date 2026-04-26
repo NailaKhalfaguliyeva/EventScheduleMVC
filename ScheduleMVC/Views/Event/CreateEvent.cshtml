@@ -1,0 +1,55 @@
+﻿@model ScheduleMVC.Entities.Event
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Create Event</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+
+</head>
+<body>
+
+    <div class="container mt-5">
+
+        <div class="card card-success">
+            <div class="card-header">
+                <h3 class="card-title">Create Event</h3>
+            </div>
+
+            <div class="card-body">
+
+                <form method="post">
+
+                    <div class="form-group">
+                        <label>Event Title</label>
+                        @Html.TextBoxFor(x => x.Title, new { @class = "form-control", placeholder = "For Example: Meeting" })
+                    </div>
+
+                    <div class="form-group">
+                        <label>Department</label>
+                        @Html.DropDownListFor(
+                            x => x.DepartmentId,
+                            new SelectList(ViewBag.Departments, "DepartmentId", "DepartmentName"),
+                            "Select Department",
+                            new { @class = "form-control" }
+                        )
+                    </div>
+
+                    <button type="submit" class="btn btn-success">Save</button>
+                    <a href="/Event/EventList" class="btn btn-secondary">Go Back</a>
+
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+
+  
+</body>
+</html>
